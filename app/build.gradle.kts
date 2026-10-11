@@ -46,6 +46,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.48")
     testCompileOnly("org.projectlombok:lombok:1.18.48")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.48")
+
+    implementation("com.h2database:h2:2.5.250")
 }
 
 tasks.test {
