@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App {
     public static Javalin getApp() {
+
         return Javalin.create(config -> {
            config.bundledPlugins.enableDevLogging();
            config.routes.get("/", ctx -> {
@@ -15,6 +16,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        getApp().start(8080);
+        int port = System.getenv("PORT") != null ? Integer.parseInt(System.getenv("PORT")) : 7070;
+        getApp().start("0.0.0.0", port);
     }
 }
