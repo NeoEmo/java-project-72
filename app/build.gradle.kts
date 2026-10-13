@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("application")
     id("com.gradleup.shadow") version "9.6.1"
+    id("gg.jte.gradle") version "3.2.4"
 }
 
 application {
@@ -45,6 +46,12 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.48")
 
     implementation("com.h2database:h2:2.5.250")
+}
+
+jte {
+    sourceDirectory.set(file("src/main/resources/templates").toPath())
+    generate()
+    binaryStaticContent = true
 }
 
 tasks.test {
