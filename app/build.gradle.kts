@@ -27,9 +27,6 @@ dependencies {
     // Source: https://mvnrepository.com/artifact/io.javalin/javalin
     implementation("io.javalin:javalin:7.2.3")
 
-    // Source: https://mvnrepository.com/artifact/io.javalin/javalin-rendering
-    runtimeOnly("io.javalin:javalin-rendering:7.2.3")
-
     // Source: https://mvnrepository.com/artifact/gg.jte/jte
     implementation("gg.jte:jte:3.2.4")
 

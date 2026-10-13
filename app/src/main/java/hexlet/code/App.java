@@ -2,16 +2,29 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.DirectoryCodeResolver;
+import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.repository.BaseRepository;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
+import io.javalin.rendering.template.JavalinJte;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+import static hexlet.code.repository.BaseRepository.dataSource;
 
 @Slf4j
 public class App {
+    private static final Path TEMPLATES_PATH = Path.of("src", "main", "resources", "templates");
+    private static final Path STATIC_PATH = Path.of("src", "main", "resources", "static");
+    private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
     //TODO:
     /**
@@ -27,14 +40,32 @@ public class App {
      *     <li>8-ой пункт НЕ СДЕЛАН</li>
      * </ul>
      * **/
+    private static String getMode() {
+        return System.getenv().getOrDefault("APP_ENV", "production");
+    }
+
+    private static boolean isDevelopment() {
+        return getMode().equals("development") && Files.isDirectory(TEMPLATES_PATH);
+    }
+
+    private static TemplateEngine createTemplateEngine() {
+        if (isDevelopment()) {
+            var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
+            return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
+        }
+        var classLoader = App.class.getClassLoader();
+        var codeResolver = new ResourceCodeResolver("templates", classLoader);
+        return TemplateEngine.create(codeResolver, ContentType.Html);
+    }
+
     public static Javalin getApp() throws SQLException {
         var hikariConfig = new HikariConfig();
         var jdbcUrl = System.getenv()
-                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:my_db; DB_CLOSE_DELAY=-1");
+                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
 
         hikariConfig.setJdbcUrl(jdbcUrl);
 
-        var dataSource = new HikariDataSource(hikariConfig);
+        dataSource = new HikariDataSource(hikariConfig);
         var url = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var sql = new BufferedReader(new InputStreamReader(url)).lines().collect(Collectors.joining("\n"));
 
@@ -45,8 +76,18 @@ public class App {
 
         return Javalin.create(config -> {
            config.bundledPlugins.enableDevLogging();
+           log.info("Running in {} mode", getMode());
+
+           if (isDevelopment()) {
+               config.staticFiles.add(STATIC_PATH.toString(), Location.EXTERNAL);
+           } else {
+               config.staticFiles.add("/static", Location.CLASSPATH);
+           }
+
+           config.fileRenderer(new JavalinJte(createTemplateEngine()));
+
            config.routes.get("/", ctx -> {
-              ctx.result("Hello World and Bye!");
+              ctx.render("index.jte");
            });
         });
     }
