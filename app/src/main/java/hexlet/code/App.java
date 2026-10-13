@@ -53,9 +53,7 @@ public class App {
             var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
             return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
         }
-        var classLoader = App.class.getClassLoader();
-        var codeResolver = new ResourceCodeResolver("templates", classLoader);
-        return TemplateEngine.create(codeResolver, ContentType.Html);
+        return TemplateEngine.createPrecompiled(ContentType.Html);
     }
 
     public static Javalin getApp() throws SQLException {
