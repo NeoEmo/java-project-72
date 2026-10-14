@@ -5,8 +5,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.DirectoryCodeResolver;
-import gg.jte.resolve.ResourceCodeResolver;
-import hexlet.code.repository.BaseRepository;
+import hexlet.code.controller.UrlController;
+import hexlet.code.dto.BasePage;
+import hexlet.code.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinJte;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.stream.Collectors;
 import static hexlet.code.repository.BaseRepository.dataSource;
 
@@ -26,20 +28,6 @@ public class App {
     private static final Path STATIC_PATH = Path.of("src", "main", "resources", "static");
     private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
-    //TODO:
-    /**
-     * <p>4-ый шаг сделано:</p>
-     * <ul>
-     *     <li>1-ый пункт сделан</li>
-     *     <li>2-ой пункт НЕ СДЕЛАН</li>
-     *     <li>3-ий пункт сделан</li>
-     *     <li>4-ый пункт сделан (но мб возможно надо ещё сделать UrlRepository)</li>
-     *     <li>5-ый пункт сделан</li>
-     *     <li>6-ой пункт сделан</li>
-     *     <li>7-ой пункт НЕ СДЕЛАН</li>
-     *     <li>8-ой пункт НЕ СДЕЛАН</li>
-     * </ul>
-     * **/
     private static String getMode() {
         return System.getenv().getOrDefault("APP_ENV", "production");
     }
@@ -85,8 +73,11 @@ public class App {
            config.fileRenderer(new JavalinJte(createTemplateEngine()));
 
            config.routes.get("/", ctx -> {
-              ctx.render("index.jte");
+              ctx.render("index.jte", Map.of("page", new BasePage()));
            });
+           config.routes.post(NamedRoutes.getUrlPath(), UrlController::create);
+           config.routes.get(NamedRoutes.getUrlPath(), UrlController::showAll);
+           config.routes.get(NamedRoutes.getUrlIdPath(), UrlController::show);
         });
     }
 

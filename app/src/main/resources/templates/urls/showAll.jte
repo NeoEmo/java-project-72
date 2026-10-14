@@ -1,0 +1,28 @@
+@import hexlet.code.dto.UrlsPage
+@import gg.jte.Content
+
+@param UrlsPage page
+
+@template.layout.page(
+page = page,
+content = @`
+    <table data-test="urls">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for(var url : page.getUrls())
+                <tr>
+                    <td>${url.getId()}</td>
+                    <td><a href="/urls/${url.getId()}">${url.getName()}</a></td>
+                    <td>${url.getCreatedAt().toString()}</td>
+                </tr>
+            @endfor
+        </tbody>
+    </table>
+`
+)

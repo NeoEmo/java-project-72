@@ -1,14 +1,11 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link href="/css/main.css" rel="stylesheet" />
-        <title>Document</title>
-    </head>
-    <body>
+@import hexlet.code.dto.BasePage
+@import gg.jte.Content
+
+@param BasePage page
+
+@template.layout.page(
+    page = page,
+    content = @`
         <div class="mx-auto max-w-3xl rounded-lg border border-gray-200 bg-gray-50 p-10">
             <h1 class="text-5xl font-light">Анализатор страниц</h1>
             <p class="mt-2 mb-6 text-xl text-gray-600">Бесплатно проверяйте сайты на SEO пригодность</p>
@@ -28,5 +25,5 @@
                        value="Проверить">
             </form>
         </div>
-    </body>
-</html>
+    `
+)
