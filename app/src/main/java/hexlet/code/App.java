@@ -28,6 +28,8 @@ public class App {
     private static final Path STATIC_PATH = Path.of("src", "main", "resources", "static");
     private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
+    // a
+
     private static String getMode() {
         return System.getenv().getOrDefault("APP_ENV", "production");
     }
