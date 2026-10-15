@@ -57,7 +57,7 @@ public class UrlController {
         var normalize = scheme + "://" + host + (port == -1 ? "" : ":" + port);
 
         var isPresent = UrlRepository.findByName(normalize);
-        if(isPresent.isPresent()) {
+        if (isPresent.isPresent()) {
             ctx.sessionAttribute("flash", "Страница уже существует");
             ctx.redirect(NamedRoutes.getUrlIdPath(isPresent.get().getId()));
             return;

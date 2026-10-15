@@ -28,8 +28,6 @@ public class App {
     private static final Path STATIC_PATH = Path.of("src", "main", "resources", "static");
     private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
-    // a
-
     private static String getMode() {
         return System.getenv().getOrDefault("APP_ENV", "production");
     }
@@ -63,23 +61,23 @@ public class App {
         }
 
         return Javalin.create(config -> {
-           config.bundledPlugins.enableDevLogging();
-           log.info("Running in {} mode", getMode());
+            config.bundledPlugins.enableDevLogging();
+            log.info("Running in {} mode", getMode());
 
-           if (isDevelopment()) {
-               config.staticFiles.add(STATIC_PATH.toString(), Location.EXTERNAL);
-           } else {
-               config.staticFiles.add("/static", Location.CLASSPATH);
-           }
+            if (isDevelopment()) {
+                config.staticFiles.add(STATIC_PATH.toString(), Location.EXTERNAL);
+            } else {
+                config.staticFiles.add("/static", Location.CLASSPATH);
+            }
 
-           config.fileRenderer(new JavalinJte(createTemplateEngine()));
+            config.fileRenderer(new JavalinJte(createTemplateEngine()));
 
-           config.routes.get("/", ctx -> {
-              ctx.render("index.jte", Map.of("page", new BasePage()));
-           });
-           config.routes.post(NamedRoutes.getUrlPath(), UrlController::create);
-           config.routes.get(NamedRoutes.getUrlPath(), UrlController::showAll);
-           config.routes.get(NamedRoutes.getUrlIdPath(), UrlController::show);
+            config.routes.get("/", ctx -> {
+                ctx.render("index.jte", Map.of("page", new BasePage()));
+            });
+            config.routes.post(NamedRoutes.getUrlPath(), UrlController::create);
+            config.routes.get(NamedRoutes.getUrlPath(), UrlController::showAll);
+            config.routes.get(NamedRoutes.getUrlIdPath(), UrlController::show);
         });
     }
 

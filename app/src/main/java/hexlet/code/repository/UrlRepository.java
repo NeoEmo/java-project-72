@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UrlRepository extends BaseRepository{
-    public static void save (Url url) throws SQLException {
+public class UrlRepository extends BaseRepository {
+    public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls(name, created_at) VALUES(?, NOW())";
         try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql, new String[]{"id", "created_at"})) {
@@ -24,10 +24,10 @@ public class UrlRepository extends BaseRepository{
         }
     }
 
-    public static Optional<Url> findById (Long id) throws SQLException {
+    public static Optional<Url> findById(Long id) throws SQLException {
         var sql = "SELECT * FROM urls WHERE id = ?";
         try (var connection = dataSource.getConnection();
-        var statement = connection.prepareStatement(sql)) {
+            var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             var result = statement.executeQuery();
             if (result.next()) {
@@ -41,10 +41,10 @@ public class UrlRepository extends BaseRepository{
         }
     }
 
-    public static Optional<Url> findByName (String name) throws SQLException {
+    public static Optional<Url> findByName(String name) throws SQLException {
         var sql = "SELECT * FROM urls WHERE name = ?";
         try (var connection = dataSource.getConnection();
-        var statement = connection.prepareStatement(sql)) {
+            var statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             var result = statement.executeQuery();
             if (result.next()) {
@@ -58,10 +58,10 @@ public class UrlRepository extends BaseRepository{
         }
     }
 
-    public static List<Url> getEntities () throws SQLException {
+    public static List<Url> getEntities() throws SQLException {
         var sql = "SELECT * FROM urls";
         try (var connection = dataSource.getConnection();
-        var statement = connection.prepareStatement(sql)) {
+            var statement = connection.prepareStatement(sql)) {
             var resultSet = statement.executeQuery();
             var result = new ArrayList<Url>();
             while (resultSet.next()) {
