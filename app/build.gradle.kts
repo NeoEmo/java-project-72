@@ -3,6 +3,8 @@ plugins {
     id("application")
     id("com.gradleup.shadow") version "9.6.1"
     id("gg.jte.gradle") version "3.2.4"
+    id("jacoco")
+    id("checkstyle")
 }
 
 application {
@@ -56,4 +58,15 @@ jte {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion = "10.12.4"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+    }
 }
