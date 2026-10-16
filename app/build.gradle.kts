@@ -76,6 +76,9 @@ tasks.withType<Checkstyle>().configureEach {
 }
 
 tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
     dependsOn(tasks.test)
     classDirectories.setFrom(
         files(classDirectories.files.map {
