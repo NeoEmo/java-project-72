@@ -40,7 +40,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:7.1.0")
 
     // Source: https://mvnrepository.com/artifact/org.postgresql/postgresql
-    implementation("org.postgresql:postgresql:42.7.13")
+    implementation("org.postgresql:postgresql:42.7.14")
 
     compileOnly("org.projectlombok:lombok:1.18.48")
     annotationProcessor("org.projectlombok:lombok:1.18.48")
@@ -48,6 +48,12 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.48")
 
     implementation("com.h2database:h2:2.5.250")
+
+    // Source: https://mvnrepository.com/artifact/io.javalin/javalin-testtools
+    testImplementation("io.javalin:javalin-testtools:7.2.3")
+
+    // Source: https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation("org.assertj:assertj-core:4.0.0-M1")
 }
 
 jte {
@@ -64,9 +70,15 @@ checkstyle {
     toolVersion = "10.12.4"
 }
 
+tasks.withType<Checkstyle>().configureEach {
+    exclude("**/gg/jte/generated/**")
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
-    reports {
-        xml.required = true
-    }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) { exclude("**/gg/jte/generated/**") }
+        })
+    )
 }
