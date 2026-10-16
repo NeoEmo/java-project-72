@@ -59,7 +59,7 @@ public class UrlTest {
     }
 
     @Test
-    public void UrlsPage() {
+    public void urlsPage() {
         JavalinTest.test(app, (server, client) -> {
             var response = client.get("/urls");
             assertThat(response.code()).isEqualTo(200);
@@ -67,7 +67,7 @@ public class UrlTest {
     }
 
     @Test
-    public void CreateUrl() {
+    public void createUrl() {
         JavalinTest.test(app, (server, client) -> {
             var response = client.post("/urls", "url=https://example.com");
             assertThat(response.code()).isEqualTo(302);
@@ -108,26 +108,26 @@ public class UrlTest {
     @Test
     public void redirectsFromPages() {
         JavalinTest.test(app, (server, client) -> {
-           var url = new Url("https://example.com");
-           var url2 = new Url("https://example2.com");
-           UrlRepository.save(url);
-           UrlRepository.save(url2);
-           var response = client.get("/urls");
-           assertThat(response.code()).isEqualTo(200);
-           assertThat(response.body().string()).contains("https://example.com");
-           assertThat(response.body().string()).contains("https://example2.com");
+            var url = new Url("https://example.com");
+            var url2 = new Url("https://example2.com");
+            UrlRepository.save(url);
+            UrlRepository.save(url2);
+            var response = client.get("/urls");
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("https://example.com");
+            assertThat(response.body().string()).contains("https://example2.com");
 
-           var response2 = client.get("/urls/" + url.getId());
-           var id = 1L;
-           assertThat(id).isEqualTo(url.getId());
-           assertThat(response2.code()).isEqualTo(200);
-           assertThat(response2.body().string()).contains(Long.toString(id));
+            var response2 = client.get("/urls/" + url.getId());
+            var id = 1L;
+            assertThat(id).isEqualTo(url.getId());
+            assertThat(response2.code()).isEqualTo(200);
+            assertThat(response2.body().string()).contains(Long.toString(id));
 
-           var response3 = client.get("/urls/" + url2.getId());
-           var id2 = 2L;
-           assertThat(id2).isEqualTo(url2.getId());
-           assertThat(response3.code()).isEqualTo(200);
-           assertThat(response3.body().string()).contains(Long.toString(id2));
+            var response3 = client.get("/urls/" + url2.getId());
+            var id2 = 2L;
+            assertThat(id2).isEqualTo(url2.getId());
+            assertThat(response3.code()).isEqualTo(200);
+            assertThat(response3.body().string()).contains(Long.toString(id2));
         });
     }
 
