@@ -5,6 +5,7 @@ plugins {
     id("gg.jte.gradle") version "3.2.4"
     id("jacoco")
     id("checkstyle")
+    id("org.sonarqube") version "7.5.0.8588"
 }
 
 application {
@@ -81,4 +82,11 @@ tasks.jacocoTestReport {
             fileTree(it) { exclude("**/gg/jte/generated/**") }
         })
     )
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "NeoEmo_java-project-72")
+        property("sonar.organization", "neoemo")
+    }
 }
