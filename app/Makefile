@@ -19,3 +19,9 @@ start-win:
 	npx --no concurrently --kill-others --names css,app \
 		"npm run watch:css" \
 		"APP_ENV=development .\gradlew.bat run"
+
+test:
+	./gradlew test --rerun-tasks
+
+test-win:
+	.\gradlew test --rerun-tasks
