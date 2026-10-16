@@ -43,7 +43,3 @@ jobs:
         with:
           files: app/build/reports/jacoco/test/jacocoTestReport.xml
           fail_ci_if_error: false
-
-      - name: makefile
-        run: ./gradlew installDist
-          - run: make test
