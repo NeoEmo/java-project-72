@@ -10,7 +10,7 @@ RUN apk add --no-cache nodejs npm
 COPY app/ /app/
 
 # Ставим npm-зависимости и собираем main.css
-RUN npm ci && npm run build:css
+RUN npm ci --ignore-scripts && npm run build:css
 
 # Собираем приложение. main.css уже лежит в src/main/resources/static/css/
 RUN gradle installDist -x test
