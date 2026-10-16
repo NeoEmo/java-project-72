@@ -75,4 +75,12 @@ public class UrlRepository extends BaseRepository {
             return result;
         }
     }
+
+    public static void clearAll() throws SQLException {
+        var sql = "TRUNCATE TABLE urls RESTART IDENTITY";
+        try (var connection = dataSource.getConnection();
+            var statement = connection.prepareStatement(sql)) {
+            statement.executeUpdate();
+        }
+    }
 }
