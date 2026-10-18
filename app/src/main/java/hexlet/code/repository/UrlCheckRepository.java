@@ -13,7 +13,7 @@ public class UrlCheckRepository extends BaseRepository {
                 + "VALUES (?, ?, ?, ?, ?, NOW())";
 
         try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+             var statement = connection.prepareStatement(sql, new String[]{"id", "created_at"});) {
             statement.setLong(1, check.getUrlId());
             statement.setInt(2, check.getStatusCode());
             statement.setString(3, check.getTitle());
