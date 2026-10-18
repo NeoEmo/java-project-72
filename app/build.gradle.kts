@@ -61,6 +61,12 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/org.jsoup/jsoup
     implementation("org.jsoup:jsoup:1.23.2")
+
+    // Source: https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.5.0")
+
+    // Source: https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation("org.mockito:mockito-core:5.24.0")
 }
 
 jte {

@@ -2,14 +2,18 @@ package hexlet.code;
 
 import hexlet.code.model.Url;
 import hexlet.code.repository.BaseRepository;
+import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import io.javalin.testtools.TestConfig;
+import mockwebserver3.MockResponse;
+import mockwebserver3.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.CookieManager;
 import java.net.http.HttpClient;
 import java.sql.SQLException;
@@ -17,6 +21,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UrlTest {
+    private MockWebServer mockWebServer;
     private static final TestConfig FOLLOW_REDIRECTS =
             new TestConfig(
                     true,
@@ -28,9 +33,12 @@ public class UrlTest {
     private static Javalin app;
 
     @BeforeEach
-    public void clear() throws SQLException {
+    public void clear() throws SQLException, IOException {
         app = App.getApp();
         UrlRepository.clearAll();
+
+        mockWebServer = new MockWebServer();
+        mockWebServer.start();
     }
 
     @AfterEach
@@ -39,6 +47,47 @@ public class UrlTest {
             BaseRepository.dataSource.close();
             BaseRepository.dataSource = null;
         }
+        if (mockWebServer != null) {
+            mockWebServer.close();
+            mockWebServer = null;
+        }
+    }
+
+    @Test
+    public void testUrlChecksSuccess() throws IOException, SQLException {
+        String html = """
+            <html>
+                <head>
+                    <title>Test Title</title>
+                    <meta name="description" content="Test Description">
+                </head>
+                <body>
+                    <h1>Test H1</h1>
+                </body>
+            </html>
+            """;
+
+        mockWebServer.enqueue(new MockResponse.Builder().code(200).body(html).build());
+        String mocUrl = mockWebServer.url("/").toString();
+
+        var url = new Url(mocUrl);
+        UrlRepository.save(url);
+
+        JavalinTest.test(app, (server, client) -> {
+            var response = client.post("/urls/" + url.getId() + "/checks");
+
+            assertThat(response.code()).isEqualTo(302);
+        });
+
+        var checks = UrlCheckRepository.findByUrlId(url.getId());
+        assertThat(checks).hasSize(1);
+
+        var check = checks.getFirst();
+
+        assertThat(check.getStatusCode()).isEqualTo(200);
+        assertThat(check.getTitle()).isEqualTo("Test Title");
+        assertThat(check.getDescription()).isEqualTo("Test Description");
+        assertThat(check.getH1()).isEqualTo("Test H1");
     }
 
     @Test
