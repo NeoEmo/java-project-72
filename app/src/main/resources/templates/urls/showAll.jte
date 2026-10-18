@@ -1,5 +1,4 @@
 @import hexlet.code.dto.UrlsPage
-@import gg.jte.Content
 
 @param UrlsPage page
 

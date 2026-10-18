@@ -1,0 +1,52 @@
+package hexlet.code.controller;
+
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlCheckRepository;
+import hexlet.code.repository.UrlRepository;
+import hexlet.code.utils.NamedRoutes;
+import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.Unirest;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.sql.SQLException;
+
+public class UrlCheckController {
+    public static void create(Context ctx) throws SQLException {
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        var url = UrlRepository.findById(id).orElseThrow(() -> new NotFoundResponse("URL not Found"));
+
+        try {
+            HttpResponse<String> response = Unirest.post(url.getName()).asString();
+            var statusCode = response.getStatus();
+
+            if (statusCode >= 400) {
+                ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+                ctx.redirect(NamedRoutes.getUrlIdPath(id));
+                return;
+            }
+
+            Document document = Jsoup.parse(response.getBody());
+            var title = document.title();
+            var h1Element = document.selectFirst("h1");
+            var h1 = h1Element != null ? h1Element.text() : "";
+            var descElement = document.selectFirst("meta[name=description]");
+            var description = descElement != null ? descElement.attr("content") : "";
+
+            var check = new UrlCheck();
+            check.setUrlId(id);
+            check.setStatusCode(statusCode);
+            check.setTitle(title);
+            check.setH1(h1);
+            check.setDescription(description);
+
+            UrlCheckRepository.save(check);
+            ctx.sessionAttribute("flash", "Страница успешно проверена");
+        } catch (Exception e) {
+            ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+        }
+        ctx.redirect(NamedRoutes.getUrlIdPath(id));
+    }
+}

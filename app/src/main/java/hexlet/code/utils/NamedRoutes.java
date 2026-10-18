@@ -12,4 +12,12 @@ public class NamedRoutes {
     public static String getUrlPath() {
         return "/urls";
     }
+
+    public static String getUrlIdChecksPath(Long id) {
+        return "/urls/" + id +  "/checks";
+    }
+
+    public static String getUrlIdChecksPath() {
+        return "/urls/{id}/checks";
+    }
 }

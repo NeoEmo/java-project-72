@@ -1,5 +1,4 @@
 @import hexlet.code.dto.UrlPage
-@import gg.jte.Content
 
 @param UrlPage page
 
@@ -20,6 +19,28 @@ content = @`
             <td>Дата создания</td>
             <td>${page.getUrl().getCreatedAt().toString()}</td>
         </tr>
+        </tbody>
+    </table>
+    <form method="post" action="/urls/${page.getUrl().getId()}/checks">
+        <input type="submit" value="Запустить проверку">
+    </form>
+
+    <table data-test="checks">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Код ответа</th>
+            <th>Дата создания</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(var check : page.getChecks())
+            <tr>
+                <td>${check.getId()}</td>
+                <td>${check.getStatusCode()}</td>
+                <td>${String.valueOf(check.getCreatedAt())}</td>
+            </tr>
+        @endfor
         </tbody>
     </table>
 `

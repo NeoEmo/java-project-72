@@ -77,10 +77,13 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static void clearAll() throws SQLException {
-        var sql = "TRUNCATE TABLE urls RESTART IDENTITY";
         try (var connection = dataSource.getConnection();
-            var statement = connection.prepareStatement(sql)) {
-            statement.executeUpdate();
+            var statement = connection.createStatement()) {
+            statement.executeUpdate("DELETE FROM url_checks");
+            statement.executeUpdate("DELETE FROM urls");
+
+            statement.executeUpdate("ALTER TABLE  urls ALTER COLUMN id RESTART WITH 1");
+            statement.executeUpdate("ALTER TABLE url_checks ALTER COLUMN id RESTART WITH 1");
         }
     }
 }

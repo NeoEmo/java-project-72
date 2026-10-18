@@ -1,5 +1,4 @@
 @import hexlet.code.dto.BasePage
-@import gg.jte.Content
 
 @param BasePage page
 
