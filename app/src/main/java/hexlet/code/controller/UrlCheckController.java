@@ -19,7 +19,10 @@ public class UrlCheckController {
         var url = UrlRepository.findById(id).orElseThrow(() -> new NotFoundResponse("URL not Found"));
 
         try {
-            HttpResponse<String> response = Unirest.post(url.getName()).asString();
+            HttpResponse<String> response = Unirest.get(url.getName())
+                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            + "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+                    .asString();
             var statusCode = response.getStatus();
 
             if (statusCode >= 400) {
