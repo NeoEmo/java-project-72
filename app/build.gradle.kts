@@ -57,7 +57,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:4.0.0-M1")
 
     // Source: https://mvnrepository.com/artifact/com.konghq/unirest-java-core
-    compileOnly("com.konghq:unirest-java-core:4.10.1")
+    implementation("com.konghq:unirest-java-core:4.10.1")
 
     // Source: https://mvnrepository.com/artifact/org.jsoup/jsoup
     implementation("org.jsoup:jsoup:1.23.2")
