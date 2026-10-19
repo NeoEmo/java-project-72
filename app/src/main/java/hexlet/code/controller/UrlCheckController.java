@@ -3,6 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
+import hexlet.code.utils.FlashUtils;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
@@ -26,7 +27,7 @@ public class UrlCheckController {
             var statusCode = response.getStatus();
 
             if (statusCode >= 400) {
-                ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+                FlashUtils.error(ctx, "Произошла ошибка при проверке");
                 ctx.redirect(NamedRoutes.getUrlIdPath(id));
                 return;
             }
@@ -46,9 +47,9 @@ public class UrlCheckController {
             check.setDescription(description);
 
             UrlCheckRepository.save(check);
-            ctx.sessionAttribute("flash", "Страница успешно проверена");
+            FlashUtils.success(ctx, "Страница успешно проверена");
         } catch (Exception e) {
-            ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+            FlashUtils.error(ctx, "Произошла ошибка при проверке");
         }
         ctx.redirect(NamedRoutes.getUrlIdPath(id));
     }

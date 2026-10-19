@@ -6,6 +6,7 @@ import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
+import hexlet.code.utils.FlashUtils;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
@@ -62,20 +63,21 @@ public class UrlController {
 
         var isPresent = UrlRepository.findByName(normalize);
         if (isPresent.isPresent()) {
-            ctx.sessionAttribute("flash", "Страница уже существует");
+            FlashUtils.error(ctx, "Страница уже существует");
             ctx.redirect(NamedRoutes.getUrlIdPath(isPresent.get().getId()));
             return;
         }
 
         var url = new Url(normalize);
         UrlRepository.save(url);
-        ctx.sessionAttribute("flash", "Страница успешно добавлена");
+        FlashUtils.success(ctx, "Страница успешно добавлена");
         ctx.redirect(NamedRoutes.getUrlIdPath(url.getId()));
     }
 
     private static void renderInvalid(Context ctx) {
         var page = new BasePage();
         page.setFlash("Некорректный URL");
+        page.setFlashType("error");
         ctx.status(422);
         ctx.render("index.jte", Map.of("page", page));
     }
