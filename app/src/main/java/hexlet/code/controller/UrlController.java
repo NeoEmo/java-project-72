@@ -20,6 +20,7 @@ public class UrlController {
         var urls = UrlRepository.getEntities();
         var page = new UrlsPage(urls);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.sessionAttribute("flashType"));
         ctx.render("urls/showAll.jte", Map.of("page", page));
     }
 
@@ -32,6 +33,7 @@ public class UrlController {
 
         var page = new UrlPage(url, checks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.sessionAttribute("flashType"));
         ctx.render("urls/show.jte", Map.of("page", page));
     }
 
