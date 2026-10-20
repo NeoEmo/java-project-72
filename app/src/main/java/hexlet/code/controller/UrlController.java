@@ -18,6 +18,14 @@ import java.util.Map;
 public class UrlController {
     public static void showAll(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
+
+        for (var url : urls) {
+            var checks = UrlCheckRepository.findByUrlId(url.getId());
+            if (!checks.isEmpty()) {
+                url.setLastStatus(checks.getFirst().getStatusCode());
+            }
+        }
+
         var page = new UrlsPage(urls);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.sessionAttribute("flashType"));
