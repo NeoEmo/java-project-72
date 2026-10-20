@@ -13,6 +13,7 @@ content = @`
                     <th class="text-left font-medium px-4 py-2">ID</th>
                     <th class="text-left font-medium px-4 py-2">Имя</th>
                     <th class="text-left font-medium px-4 py-2">Дата создания</th>
+                    <th class="text-left font-medium px-4 py-2">Код ответа</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +22,7 @@ content = @`
                         <td class="border border-gray-300 px-4 py-2">${url.getId()}</td>
                         <td class="border border-gray-300 px-4 py-2"><a href="/urls/${url.getId()}">${url.getName()}</a></td>
                         <td class="border border-gray-300 px-4 py-2">${url.getCreatedAt().toString()}</td>
+                        <td class="border border-gray-300 px-4 py-2">${url.getLastStatus()}</td>
                     </tr>
                 @endfor
             </tbody>
