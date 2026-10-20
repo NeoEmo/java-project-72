@@ -22,6 +22,7 @@ content = @`
         </tbody>
     </table>
     <form method="post" action="/urls/${page.getUrl().getId()}/checks">
+        <h2>Проверки</h2>
         <input type="submit" class="cursor-pointer rounded bg-blue-600 px-8 py-2 text-lg font-medium text-white uppercase hover:bg-blue-700" value="Запустить проверку">
     </form>
     <div class="overflow-x-auto">

@@ -5,6 +5,7 @@
 @template.layout.page(
 page = page,
 content = @`
+    <h1>Сайты</h1>
     <div class="overflow-x-auto">
         <table data-test="urls" class="min-w-full border-collapse border border-gray-300">
             <thead>
