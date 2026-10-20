@@ -14,6 +14,13 @@
     <link href="/css/main.css" rel="stylesheet" />
     <title>Page Analyse</title>
 </head>
+<header>
+    <nav class="rounded bg-dark">
+        <h1 class="text-5xl text-white font-light">Анализатор страниц</h1>
+        <a href="/">Главная</a>
+        <a href="/urls">Сайты</a>
+    </nav>
+</header>
 <body>
     @if(page.getFlash() != null)
         @if("success".equals(page.getFlashType()))
