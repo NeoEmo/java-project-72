@@ -1,9 +1,9 @@
 setup-win:
-	build-css
+	$(MAKE) build-css
 	.\gradlew.bat installDist
 
 setup:
-	build-css
+	$(MAKE) build-css
 	./gradlew installDist
 
 build-css:
