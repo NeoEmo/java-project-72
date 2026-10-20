@@ -16,7 +16,7 @@
 </head>
 <header>
     <nav class="rounded bg-dark">
-        <a class="text-5xl text-white font-light">Анализатор страниц</a>
+        <a href="/" class="text-5xl text-white font-light">Анализатор страниц</a>
         <a href="/">Главная</a>
         <a href="/urls">Сайты</a>
     </nav>
