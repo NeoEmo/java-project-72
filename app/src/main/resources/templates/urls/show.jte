@@ -40,8 +40,8 @@ content = @`
             @for(var check : page.getChecks())
                 <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-50">
                     <td class="border border-gray-300 px-4 py-2">${check.getId()}</td>
-                    <td  class="border border-gray-300 px-4 py-2">${check.getStatusCode()}</td>
-                    <td  class="border border-gray-300 px-4 py-2">
+                    <td class="border border-gray-300 px-4 py-2">${check.getStatusCode()}</td>
+                    <td class="border border-gray-300 px-4 py-2">
                         @if(check.getH1() != null && check.getH1().length() > 200)
                             ${check.getH1().substring(0, 200)}...
                         @else
