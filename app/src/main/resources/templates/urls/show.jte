@@ -5,22 +5,25 @@
 @template.layout.page(
 page = page,
 content = @`
-    <table data-test="url">
-        <tbody>
-        <tr>
-            <td>ID</td>
-            <td>${page.getUrl().getId()}</td>
-        </tr>
-        <tr>
-            <td>Имя</td>
-            <td>${page.getUrl().getName()}</td>
-        </tr>
-        <tr>
-            <td>Дата создания</td>
-            <td>${page.getUrl().getCreatedAt().toString()}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="overflow-x-auto">
+        <table data-test="url" class="min-w-full border-collapse border border-gray-300">
+            <tbody>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">ID</td>
+                <td class="border border-gray-300 px-4 py-2">${page.getUrl().getId()}</td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">Имя</td>
+                <td class="border border-gray-300 px-4 py-2">${page.getUrl().getName()}</td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">Дата создания</td>
+                <td class="border border-gray-300 px-4 py-2">${page.getUrl().getCreatedAt().toString()}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
     <form method="post" action="/urls/${page.getUrl().getId()}/checks">
         <h2>Проверки</h2>
         <input type="submit" class="cursor-pointer rounded bg-blue-600 px-8 py-2 text-lg font-medium text-white uppercase hover:bg-blue-700" value="Запустить проверку">
