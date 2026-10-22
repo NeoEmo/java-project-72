@@ -49,7 +49,13 @@ public class UrlCheckController {
             UrlCheckRepository.save(check);
             FlashUtils.success(ctx, "Страница успешно проверена");
         } catch (Exception e) {
-            e.printStackTrace();
+            /*
+                  Мемориал памяти имени e.printStackTrace().
+                  В памяти тех, кто пушил и надеялся увидеть лог почему не проходит hexlet-check.
+                  И тех кто увидел зелёный CI.
+                  Ты заслужил отдых.
+                  20.10.2026-22.10.2026.
+             */
             FlashUtils.error(ctx, "Произошла ошибка при проверке");
         }
         ctx.redirect(NamedRoutes.getUrlIdPath(id));
