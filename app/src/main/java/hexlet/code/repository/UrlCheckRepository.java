@@ -3,6 +3,7 @@ package hexlet.code.repository;
 import hexlet.code.model.UrlCheck;
 
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,10 @@ public class UrlCheckRepository extends BaseRepository {
         var sql = "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, NOW())";
 
+        var sql2 = "SELECT created_at FROM url_checks WHERE url_id = ?";
+
         try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql, new String[]{"id", "created_at"});) {
+            var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, check.getUrlId());
             statement.setInt(2, check.getStatusCode());
             statement.setString(3, check.getTitle());
@@ -22,10 +25,17 @@ public class UrlCheckRepository extends BaseRepository {
             statement.executeUpdate();
             var generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                check.setId(generatedKeys.getLong("id"));
-                check.setCreatedAt(generatedKeys.getTimestamp("created_at"));
+                check.setId(generatedKeys.getLong(1));
             } else {
                 throw new SQLException("Database have not returned an id after saving an entity");
+            }
+            try (var statement2 = connection.prepareStatement(sql2)) {
+                statement2.setLong(1, check.getId());
+                try (var resultSet = statement2.executeQuery()) {
+                    if (resultSet.next()) {
+                        check.setCreatedAt(resultSet.getTimestamp("created_at"));
+                    }
+                }
             }
         }
     }

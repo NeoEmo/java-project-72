@@ -3,6 +3,7 @@ package hexlet.code.repository;
 import hexlet.code.model.Url;
 
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,16 +11,25 @@ import java.util.Optional;
 public class UrlRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls(name, created_at) VALUES(?, NOW())";
+        String sql2= "SELECT created_at FROM urls WHERE id = ?";
         try (var connection = dataSource.getConnection();
-             var statement = connection.prepareStatement(sql, new String[]{"id", "created_at"})) {
+            var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, url.getName());
             statement.executeUpdate();
+
             var generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                url.setId(generatedKeys.getLong("id"));
-                url.setCreatedAt(generatedKeys.getTimestamp("created_at"));
-            } else {
+                url.setId(generatedKeys.getLong(1));
+            } else  {
                 throw new SQLException("Database have not returned an id after saving an entity");
+            }
+            try (var statement2 = connection.prepareStatement(sql2)) {
+                statement2.setLong(1, url.getId());
+                try (var resultSet = statement2.executeQuery()) {
+                    if (resultSet.next()) {
+                        url.setCreatedAt(resultSet.getTimestamp("created_at"));
+                    }
+                }
             }
         }
     }
