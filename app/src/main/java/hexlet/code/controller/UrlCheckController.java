@@ -49,8 +49,7 @@ public class UrlCheckController {
             UrlCheckRepository.save(check);
             FlashUtils.success(ctx, "Страница успешно проверена");
         } catch (Exception e) {
-//            FlashUtils.error(ctx, "Произошла ошибка при проверке");
-            e.printStackTrace();
+            FlashUtils.error(ctx, "Произошла ошибка при проверке");
         }
         ctx.redirect(NamedRoutes.getUrlIdPath(id));
     }
