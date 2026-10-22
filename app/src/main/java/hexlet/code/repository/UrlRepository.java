@@ -11,7 +11,7 @@ import java.util.Optional;
 public class UrlRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls(name, created_at) VALUES(?, NOW())";
-        String sql2= "SELECT created_at FROM urls WHERE id = ?";
+        String sql2 = "SELECT created_at FROM urls WHERE id = ?";
         try (var connection = dataSource.getConnection();
             var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, url.getName());
