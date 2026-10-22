@@ -15,10 +15,10 @@
     <title>Page Analyse</title>
 </head>
 <header>
-    <nav class="rounded bg-dark">
+    <nav class="rounded bg-gray-900 px-4 py-2">
         <a href="/" class="text-5xl text-white font-light">Анализатор страниц</a>
-        <a href="/">Главная</a>
-        <a href="/urls">Сайты</a>
+        <a href="/" class="text-5xl text-white font-light">Главная</a>
+        <a href="/urls" class="text-5xl text-white font-light">Сайты</a>
     </nav>
 </header>
 <body>
