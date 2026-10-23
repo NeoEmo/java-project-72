@@ -52,6 +52,17 @@ public class App {
 
         hikariConfig.setJdbcUrl(jdbcUrl);
 
+//        var dbUser = System.getenv("JDBC_DATABASE_USER");
+//        var dbPassword = System.getenv("JDBC_DATABASE_PASSWORD");
+//
+//        if (dbUser != null && !dbUser.isEmpty()) {
+//            hikariConfig.setUsername(dbUser);
+//        }
+//
+//        if (dbPassword != null && !dbPassword.isEmpty()) {
+//            hikariConfig.setPassword(dbPassword);
+//        }
+
         dataSource = new HikariDataSource(hikariConfig);
         var url = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var sql = new BufferedReader(new InputStreamReader(url)).lines().collect(Collectors.joining("\n"));
