@@ -33,7 +33,7 @@ public class UrlCheckRepository extends BaseRepository {
                 statement2.setLong(1, check.getId());
                 try (var resultSet = statement2.executeQuery()) {
                     if (resultSet.next()) {
-                        check.setCreatedAt(resultSet.getTimestamp("created_at"));
+                        check.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
                     }
                 }
             }
@@ -55,7 +55,7 @@ public class UrlCheckRepository extends BaseRepository {
                 check.setTitle(resultSet.getString("title"));
                 check.setH1(resultSet.getString("h1"));
                 check.setDescription(resultSet.getString("description"));
-                check.setCreatedAt(resultSet.getTimestamp("created_at"));
+                check.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
                 checks.add(check);
             }
         }
