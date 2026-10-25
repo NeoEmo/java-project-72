@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     id("application")
     id("com.gradleup.shadow") version "9.6.1"
     id("gg.jte.gradle") version "3.2.4"

@@ -27,7 +27,7 @@ public class UrlRepository extends BaseRepository {
                 statement2.setLong(1, url.getId());
                 try (var resultSet = statement2.executeQuery()) {
                     if (resultSet.next()) {
-                        url.setCreatedAt(resultSet.getTimestamp("created_at"));
+                        url.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
                     }
                 }
             }
@@ -42,7 +42,7 @@ public class UrlRepository extends BaseRepository {
             var result = statement.executeQuery();
             if (result.next()) {
                 var name =  result.getString("name");
-                var createdAt = result.getTimestamp("created_at");
+                var createdAt = result.getTimestamp("created_at").toLocalDateTime();
                 var url = new Url(name, createdAt);
                 url.setId(id);
                 return Optional.of(url);
@@ -59,7 +59,7 @@ public class UrlRepository extends BaseRepository {
             var result = statement.executeQuery();
             if (result.next()) {
                 var id = result.getLong("id");
-                var createdAt = result.getTimestamp("created_at");
+                var createdAt = result.getTimestamp("created_at").toLocalDateTime();
                 var url = new Url(name, createdAt);
                 url.setId(id);
                 return Optional.of(url);
@@ -77,7 +77,7 @@ public class UrlRepository extends BaseRepository {
             while (resultSet.next()) {
                 var id = resultSet.getLong("id");
                 var name =  resultSet.getString("name");
-                var createdAt = resultSet.getTimestamp("created_at");
+                var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
                 var url = new Url(name, createdAt);
                 url.setId(id);
                 result.add(url);
