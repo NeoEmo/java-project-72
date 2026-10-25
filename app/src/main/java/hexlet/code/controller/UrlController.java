@@ -9,6 +9,7 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.utils.FlashUtils;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
@@ -88,7 +89,7 @@ public class UrlController {
         var page = new BasePage();
         page.setFlash("Некорректный URL");
         page.setFlashType("error");
-        ctx.status(422);
+        ctx.status(HttpStatus.UNPROCESSABLE_CONTENT);
         ctx.render("index.jte", Map.of("page", page));
     }
 }
