@@ -23,15 +23,13 @@
 </header>
 <body>
     @if(page.getFlash() != null)
-        @if("success".equals(page.getFlashType()))
-            <div role="alert" class="rounded border border-green-300 bg-green-50 p-3 text-green-700">
-                ${page.getFlash()}
-            </div>
-        @else
-            <div role="alert" class="rounded border border-red-300 bg-red-50 p-3 text-red-700">
-                ${page.getFlash()}
-            </div>
-        @endif
+        <div role="alert" class="rounded border p-3 ${
+                "success".equals(page.getFlashType())
+                ? "border-green-300 bg-green-50 text-green-700"
+                : "border-red-300 bg-red-50 text-red-700"
+                }">
+            ${page.getFlash()}
+        </div>
     @endif
     ${content}
 </body>
