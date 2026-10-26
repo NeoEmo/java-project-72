@@ -22,7 +22,7 @@ content = @`
                     <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-50">
                         <td class="border border-gray-300 px-4 py-2">${url.getId()}</td>
                         <td class="border border-gray-300 px-4 py-2"><a href="/urls/${url.getId()}">${url.getName()}</a></td>
-                        <td class="border border-gray-300 px-4 py-2">${url.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")}</td>
+                        <td class="border border-gray-300 px-4 py-2">${url.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
                         <td class="border border-gray-300 px-4 py-2">${url.getLastStatus()}</td>
                     </tr>
                 @endfor
