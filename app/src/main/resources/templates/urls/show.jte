@@ -1,4 +1,6 @@
 @import hexlet.code.dto.UrlPage
+@import java.time.format.DateTimeFormatter
+
 
 @param UrlPage page
 
@@ -66,7 +68,7 @@ content = @`
                             ${check.getDescription()}
                         @endif
                     </td>
-                    <td  class="border border-gray-300 px-4 py-2">${String.valueOf(check.getCreatedAt())}</td>
+                    <td  class="border border-gray-300 px-4 py-2">${String.valueOf(check.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))}</td>
                 </tr>
             @endfor
             </tbody>
