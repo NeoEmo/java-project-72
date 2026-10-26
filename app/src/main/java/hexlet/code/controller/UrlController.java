@@ -4,6 +4,7 @@ import hexlet.code.dto.BasePage;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.utils.FlashUtils;
@@ -14,17 +15,21 @@ import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 import java.sql.SQLException;
+
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 public class UrlController {
     public static void showAll(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
+        List<UrlCheck> checks = UrlCheckRepository.getEntities();
 
         for (var url : urls) {
-            var checks = UrlCheckRepository.findByUrlId(url.getId());
-            if (!checks.isEmpty()) {
-                url.setLastStatus(checks.getFirst().getStatusCode());
-            }
+            checks.stream()
+                    .filter(check -> url.getId().equals(check.getUrlId()))
+                    .max(Comparator.comparing(UrlCheck::getCreatedAt))
+                    .ifPresent(check -> url.setLastStatus(check.getStatusCode()));
         }
 
         var page = new UrlsPage(urls);

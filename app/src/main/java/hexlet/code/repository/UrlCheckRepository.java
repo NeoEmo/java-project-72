@@ -12,7 +12,7 @@ public class UrlCheckRepository extends BaseRepository {
         var sql = "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, NOW())";
 
-        var sql2 = "SELECT created_at FROM url_checks WHERE url_id = ?";
+        var sql2 = "SELECT created_at FROM url_checks WHERE id = ?";
 
         try (var connection = dataSource.getConnection();
             var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -60,5 +60,26 @@ public class UrlCheckRepository extends BaseRepository {
             }
         }
         return checks;
+    }
+
+    public static List<UrlCheck> getEntities() throws SQLException {
+        var sql = "SELECT * FROM url_checks ORDER BY created_at DESC";
+        var checks = new ArrayList<UrlCheck>();
+        try (var connection = dataSource.getConnection();
+            var statement = connection.prepareStatement(sql)) {
+            var resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                var id = resultSet.getLong("id");
+                var urlId = resultSet.getLong("url_id");
+                var statusCode = resultSet.getInt("status_code");
+                var title = resultSet.getString("title");
+                var h1 = resultSet.getString("h1");
+                var description = resultSet.getString("description");
+                var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+                var check = new UrlCheck(id, statusCode, title, h1, description, urlId, createdAt);
+                checks.add(check);
+            }
+            return checks;
+        }
     }
 }
