@@ -80,14 +80,21 @@ public class UrlTest {
         });
 
         var checks = UrlCheckRepository.findByUrlId(url.getId());
+        var checks2 = UrlCheckRepository.getEntities();
         assertThat(checks).hasSize(1);
+        assertThat(checks2).hasSize(1);
 
         var check = checks.getFirst();
+        var check2 = checks2.getFirst();
 
         assertThat(check.getStatusCode()).isEqualTo(200);
+        assertThat(check2.getStatusCode()).isEqualTo(200);
         assertThat(check.getTitle()).isEqualTo("Test Title");
+        assertThat(check2.getTitle()).isEqualTo("Test Title");
         assertThat(check.getDescription()).isEqualTo("Test Description");
+        assertThat(check2.getDescription()).isEqualTo("Test Description");
         assertThat(check.getH1()).isEqualTo("Test H1");
+        assertThat(check2.getH1()).isEqualTo("Test H1");
     }
 
     @Test
