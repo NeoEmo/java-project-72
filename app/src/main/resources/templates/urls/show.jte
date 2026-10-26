@@ -37,7 +37,7 @@ content = @`
                     <th class="text-left font-medium px-4 py-2">h1</th>
                     <th class="text-left font-medium px-4 py-2">title</th>
                     <th class="text-left font-medium px-4 py-2">description</th>
-                    <th class="text-left font-medium px-4 py-2">Дата создания</th>
+                    <th class="text-left font-medium px-4 py-2">Дата последней проверки</th>
                 </tr>
             </thead>
             <tbody>
