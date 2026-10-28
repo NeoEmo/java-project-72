@@ -20,7 +20,7 @@ content = @`
             </tr>
             <tr>
                 <td class="border border-gray-300 px-4 py-2">Дата создания</td>
-                <td class="border border-gray-300 px-4 py-2">${page.getUrl().getCreatedAt().toString()}</td>
+                <td class="border border-gray-300 px-4 py-2">${page.getUrl().getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
             </tr>
             </tbody>
         </table>
