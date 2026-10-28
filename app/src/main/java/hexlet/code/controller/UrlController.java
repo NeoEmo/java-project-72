@@ -16,7 +16,6 @@ import io.javalin.http.NotFoundResponse;
 import java.net.URI;
 import java.sql.SQLException;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +27,11 @@ public class UrlController {
         for (var url : urls) {
             checks.stream()
                     .filter(check -> url.getId().equals(check.getUrlId()))
-                    .max(Comparator.comparing(UrlCheck::getCreatedAt))
-                    .ifPresent(check -> url.setLastStatus(check.getStatusCode()));
+                    .findFirst()
+                    .ifPresent(check -> {
+                        url.setLastStatus(check.getStatusCode());
+                        url.setLastCheckDate(check.getCreatedAt());
+                    });
         }
 
         var page = new UrlsPage(urls);

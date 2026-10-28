@@ -13,7 +13,7 @@ content = @`
                 <tr class="bg-gray-50">
                     <th class="text-left font-medium px-4 py-2">ID</th>
                     <th class="text-left font-medium px-4 py-2">Имя</th>
-                    <th class="text-left font-medium px-4 py-2">Дата создания</th>
+                    <th class="text-left font-medium px-4 py-2">Дата Последней проверки</th>
                     <th class="text-left font-medium px-4 py-2">Код ответа</th>
                 </tr>
             </thead>
@@ -21,8 +21,12 @@ content = @`
                 @for(var url : page.getUrls())
                     <tr class="odd:bg-white even:bg-gray-50 hover:bg-gray-50">
                         <td class="border border-gray-300 px-4 py-2">${url.getId()}</td>
-                        <td class="border border-gray-300 px-4 py-2"><a href="/urls/${url.getId()}">${url.getName()}</a></td>
-                        <td class="border border-gray-300 px-4 py-2">${url.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
+                        <td class="border border-gray-300 px-4 py-2"><a href="/urls/${url.getId()}">
+                                ${url.getName()}</a></td>
+
+                        <td class="border border-gray-300 px-4 py-2">${
+                            url.getLastCheckDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}
+                        </td>
                         <td class="border border-gray-300 px-4 py-2">${url.getLastStatus()}</td>
                     </tr>
                 @endfor

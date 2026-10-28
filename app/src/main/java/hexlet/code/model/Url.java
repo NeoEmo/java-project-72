@@ -13,6 +13,7 @@ public class Url {
     private String name;
     private LocalDateTime createdAt;
     private Integer lastStatus;
+    private LocalDateTime lastCheckDate;
 
     public Url(String name, LocalDateTime createdAt) {
         this.name = name;
