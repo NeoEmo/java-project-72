@@ -25,7 +25,10 @@ content = @`
                                 ${url.getName()}</a></td>
 
                         <td class="border border-gray-300 px-4 py-2">${
-                            url.getLastCheckDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}
+                            url.getLastCheckDate() != null
+                            ? url.getLastCheckDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+                            : url.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
+                            }
                         </td>
                         <td class="border border-gray-300 px-4 py-2">${url.getLastStatus()}</td>
                     </tr>
