@@ -48,8 +48,8 @@ public class App {
     public static Javalin getApp() throws SQLException {
         var hikariConfig = new HikariConfig();
         var jdbcUrl = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
-        // Подключить БД
-//                System.getenv();
+        // Для подключение БД замени значение переменной в jdbcUrl на:
+//                System.getenv()
 //                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
 
         hikariConfig.setJdbcUrl(jdbcUrl);
