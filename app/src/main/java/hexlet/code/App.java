@@ -30,7 +30,8 @@ public class App {
     private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
     private static String getMode() {
-        return System.getenv().getOrDefault("APP_ENV", "production");
+//        return System.getenv().getOrDefault("APP_ENV", "production");
+        return System.getenv().getOrDefault("APP_ENV", "development");
     }
 
     private static boolean isDevelopment() {
@@ -38,10 +39,10 @@ public class App {
     }
 
     private static TemplateEngine createTemplateEngine() {
-//        if (isDevelopment()) {
-//            var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
-//            return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
-//        }
+        if (isDevelopment()) {
+            var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
+            return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
+        }
         return TemplateEngine.createPrecompiled(ContentType.Html);
     }
 
