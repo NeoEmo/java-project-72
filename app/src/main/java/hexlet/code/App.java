@@ -38,10 +38,10 @@ public class App {
     }
 
     private static TemplateEngine createTemplateEngine() {
-        if (isDevelopment()) {
-            var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
-            return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
-        }
+//        if (isDevelopment()) {
+//            var codeResolver = new DirectoryCodeResolver(TEMPLATES_PATH);
+//            return TemplateEngine.create(codeResolver, JTE_CLASSES_PATH, ContentType.Html);
+//        }
         return TemplateEngine.createPrecompiled(ContentType.Html);
     }
 
