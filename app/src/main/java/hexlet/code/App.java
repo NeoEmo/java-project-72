@@ -47,11 +47,13 @@ public class App {
 
     public static Javalin getApp() throws SQLException {
         var hikariConfig = new HikariConfig();
-        var jdbcUrl = System.getenv("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
+        var jdbcUrl = "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1";
+        // Подключить БД
+//                System.getenv();
 //                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
 
         hikariConfig.setJdbcUrl(jdbcUrl);
-        
+
         var dbUser = System.getenv("JDBC_DATABASE_USER");
         var dbPassword = System.getenv("JDBC_DATABASE_PASSWORD");
 
