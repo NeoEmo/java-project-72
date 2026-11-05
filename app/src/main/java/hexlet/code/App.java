@@ -30,8 +30,7 @@ public class App {
     private static final Path JTE_CLASSES_PATH = Path.of("jte-classes");
 
     private static String getMode() {
-//        return System.getenv().getOrDefault("APP_ENV", "production");
-        return System.getenv().getOrDefault("APP_ENV", "development");
+        return System.getenv().getOrDefault("APP_ENV", "production");
     }
 
     private static boolean isDevelopment() {
@@ -48,22 +47,21 @@ public class App {
 
     public static Javalin getApp() throws SQLException {
         var hikariConfig = new HikariConfig();
-        var jdbcUrl = System.getenv()
-                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
+        var jdbcUrl = System.getenv("jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
+//                .getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
 
         hikariConfig.setJdbcUrl(jdbcUrl);
+        
+        var dbUser = System.getenv("JDBC_DATABASE_USER");
+        var dbPassword = System.getenv("JDBC_DATABASE_PASSWORD");
 
-//        Code to connect db
-//        var dbUser = System.getenv("JDBC_DATABASE_USER");
-//        var dbPassword = System.getenv("JDBC_DATABASE_PASSWORD");
-//
-//        if (dbUser != null && !dbUser.isEmpty()) {
-//            hikariConfig.setUsername(dbUser);
-//        }
-//
-//        if (dbPassword != null && !dbPassword.isEmpty()) {
-//            hikariConfig.setPassword(dbPassword);
-//        }
+        if (dbUser != null && !dbUser.isEmpty()) {
+            hikariConfig.setUsername(dbUser);
+        }
+
+        if (dbPassword != null && !dbPassword.isEmpty()) {
+            hikariConfig.setPassword(dbPassword);
+        }
 
         dataSource = new HikariDataSource(hikariConfig);
         var url = App.class.getClassLoader().getResourceAsStream("schema.sql");
